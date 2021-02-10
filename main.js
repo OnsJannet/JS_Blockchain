@@ -61,7 +61,7 @@ class Blockchain{
     }
 }
 
-
+// tests
 let SwiftieCoin = new Blockchain();
 SwiftieCoin.addBlock(new Block(1, "02/09/2021", {amount: 13}));
 SwiftieCoin.addBlock(new Block(2, "15/09/2021", {amount: 10}));
