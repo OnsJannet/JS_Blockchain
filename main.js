@@ -16,6 +16,8 @@ class Block{
         this.previousHash = previousHash;
         this.hash = ''
     }
+
+    // calculates the hash of the block
     calculateHash(){
         return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data)).toString();
     }
@@ -39,6 +41,24 @@ class Blockchain{
         newBlock.hash = newBlock.calculateHash();
         this.chain.push(newBlock);
     }
+
+    //isChainValid returns true if it's valid or False if something is wrong
+    isChainValid(){
+        for(let indexBlock = 1; indexBlock < this.chain.length; indexBlock++){
+            const currentBlock = this.chain[indexBlock];
+            const previousBlock = this.chain[indexBlock - 1];
+
+            if(currentBlock.hash !== currentBlock.calculateHash()){
+                return false;
+            } //check for hash calculations
+            
+            if(currentBlock.previousHash !== previousBlock.hash){
+                return false;
+            } 
+        }
+
+        return true;
+    }
 }
 
 
@@ -46,4 +66,5 @@ let SwiftieCoin = new Blockchain();
 SwiftieCoin.addBlock(new Block(1, "02/09/2021", {amount: 13}));
 SwiftieCoin.addBlock(new Block(2, "15/09/2021", {amount: 10}));
 
+console.log('Is blockchain valid? ' + SwiftieCoin.isChainValid());
 console.log(JSON.stringify(SwiftieCoin, null, 4));
