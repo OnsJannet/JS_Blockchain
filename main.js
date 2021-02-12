@@ -60,11 +60,18 @@ class Blockchain{
         return this.chain[this.chain.length - 1];
     }
 
-    addBlock(newBlock){
-        newBlock.previousHash = this.getLatestBlock().hash;
-        newBlock.mineBlock(this.difficulty);
-        this.chain.push(newBlock);
+    minePendingTransactions(miningRewordAdresse){
+        let block = new Block(Date.now(), this.pendingTransactions);
+        block.mineBlock(this.difficulty);
+
+        console.log("Block successfully mined!");
+        this.chain.push(block);
+        this.pendingTransactions = [
+            new Transaction(null, miningRewordAdresse, this.miningReword)
+        ];
     }
+
+    
 
     //isChainValid returns true if it's valid or False if something is wrong
     isChainValid(){
